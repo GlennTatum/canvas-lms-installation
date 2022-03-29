@@ -1,4 +1,8 @@
-Install Dependincies
+# How to setup the Canvas-lms docker enviornment
+
+**Note:**
+
+- Here is a list of all required dependincies
 
 Ruby
 
@@ -10,6 +14,8 @@ docker-compose
 
 ```
 console
+
+DONE ON OPENSUSE LEAP 15.3
 
 # Install Dependincies
 
