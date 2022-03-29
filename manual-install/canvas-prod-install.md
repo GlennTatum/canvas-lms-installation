@@ -17,6 +17,11 @@ Packages: software-properties-commmon git
 
 ### Setup Canvas Enviornment
 
+IMPORTANT: The root directory canvas will be setup
+in this instllation will be /var/canvas/
+
+cd /var/
+
 git clone https://github.com/instructure/canvas-lms.git canvas
 
 cd canvas
@@ -75,6 +80,10 @@ Install Canvas Production through tar or zip
 
 ### Configure Canvas Enviornment
 
+---
+
+## Canvas Config files
+
 - Description:
 
 In the Canvas production install guide Canvas already has
@@ -84,5 +93,90 @@ if the location of the files are known and the content
 of the files are known. With this in mind the Ansible configuration
 should contain the template variables so that the config files
 can be easily placed into their required directories.
+
+- Canvas Base Configuration files:
+
+amazon_s3.yml
+delayed_jobs.yml
+domain.yml
+file_store.yml
+outgoing_mail.yml
+security.yml
+external_migration.yml
+dynamic_settings.yml
+database.yml
+
+Note: All configuration files will be located
+and place into the /canvas/config directory. The
+configuration file variables will be setup through
+the Ansible Playbook.
+
+## Static Assets
+
+- Generate Canvas Static Assets:
+
+https://github.com/instructure/canvas-lms/wiki/Production-Start#generate-assets
+
+
+## PostgreSQL setup
+
+- PostgreSQL database population
+
+(Manual Config) RAILS_ENV=production bundle exec rake db:initial_setup
+
+Note: PostgreSQL tables will be setup through
+the Ansible playbook.
+
+
+## Apache Web Server
+
+1. Disable any exsisting Apache web server virtualhosts
+that are not required.
+
+sudo unlink /etc/apache2/sites-enabled/000-default.conf
+
+2. Create an Apache web server virtualhost for Canvas.
+
+sudo nano /etc/apache2/sites-available/canvas.conf
+
+3. Configure variables in the canvas.conf file created
+
+Apache configuration Variables:
+
+ServerName (Domain Name)
+Server Alias (Regular name such as "canvas")
+ServerAdmin (Admin Email)
+DocumentRoot ({var, home, etc...}/canvas/public)
+SetEnv (Production or Dev setup)
+Directory ({var, home, etc...}/canvas/public)
+
+Note: This will be setup for Port 80 and Port
+443 virtualhosts for SSL.
+
+Note: The apache webserver and the configurations
+required variables will be set through the Ansible
+Playbook.
+
+
+- Passenger Troubleshooting:
+
+https://github.com/instructure/canvas-lms/wiki/Production-Start#configure-passenger-with-apache
+
+Note: If the passenger installation went correctly
+the rest of these steps are for troubleshooting.
+None of these commands have to be done if the file
+symlinks are in place or if the canvas user on the system can
+not start the apache web server.
+
+### Canvas automated job daemon configuration
+
+Steps to setup the Canvas automated job daemon:
+
+https://github.com/instructure/canvas-lms/wiki/Production-Start#installation-1
+
+### Start the Canvas-lms server
+
+sudo /etc/init.d/apache2 restart
+
 
 
