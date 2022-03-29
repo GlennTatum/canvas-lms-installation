@@ -4,13 +4,13 @@
 
 - Here is a list of all required dependincies
 
-Ruby
+  Ruby
 
-mutagen
+  mutagen
 
-mutagen-compose
+  mutagen-compose
 
-docker-compose
+  docker-compose
 
 ```
 console
